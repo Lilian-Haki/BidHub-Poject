@@ -7,10 +7,12 @@ namespace BidHub_Poject.Models
         [Key]
         public int CompanyId { get; set; } 
         public string CompanyName { get; set; }
+        public string Company_url { get; set; }
+
         public string Location { get; set; }
-        public string Status { get; set; }
+        public bool Status { get; set; }
         public DateTime DateAdded { get; set; }
 
-        public ICollection<Auctioneers> Auctioneers { get; set; }
+        //public ICollection<Auctioneers> Auctioneers { get; set; }
     }
 }

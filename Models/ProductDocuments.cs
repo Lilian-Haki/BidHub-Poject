@@ -10,12 +10,13 @@ namespace BidHub_Poject.Models
         public string DocumentType { get; set; }
         public string DocumentUrl { get; set; }
 
-      
+
         //public ICollection<Products> Products { get; set; }
         //public ICollection<Products> Products { get; set; }
-        //[ForeignKey("Products")]
-        //public int ProductId { get; set; }
-        //public Products Products { get; set; }
+        //
+
+        public int ProductId { get; set; }
+        public Products Product { get; set; }
 
     }
 }

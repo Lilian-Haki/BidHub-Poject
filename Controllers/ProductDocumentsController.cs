@@ -6,30 +6,32 @@ using System;
 
 namespace BidHub_Poject.Controllers
 {
-    public class ProductPhotosController : Controller
+    public class ProductDocumentsController : Controller
     {
         private readonly BidHubDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductPhotosController(BidHubDbContext context, IWebHostEnvironment webHostEnvironment)
+        public ProductDocumentsController(BidHubDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpPost("images")] // api/main/uploadFile
-        //public IActionResult Upload(IFormFile file)
-        public IActionResult Upload(IFormFile file, ProductPhotosDTO productpic)
+        [HttpPost("documents")] // api/main/uploadFile
+        public IActionResult Upload(IFormFile file, ProductDocDTO productdoc,string fileName)
         {
             // Validate file extension
-            List<string> validExtensions = new List<string> { ".jpg", ".png" };
+            List<string> validExtensions = new List<string> { ".pdf", ".ppt" };
             string extension = Path.GetExtension(file.FileName);
             if (!validExtensions.Contains(extension))
             {
                 return BadRequest($"Extension is not valid ({string.Join(", ", validExtensions)})");
             }
 
-
+            if (file == null || string.IsNullOrEmpty(fileName))
+            {
+                return BadRequest("File or file name is missing.");
+            }
 
             // Validate file size
             long size = file.Length;
@@ -44,9 +46,7 @@ namespace BidHub_Poject.Controllers
                 return StatusCode(500, "Web root path is not configured.");
             }
 
-            // Generate a new filename
-            string fileName = Guid.NewGuid().ToString() + extension;
-            string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads/images");
+            string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads/documents");
 
             try
             {
@@ -65,20 +65,20 @@ namespace BidHub_Poject.Controllers
                 }
 
                 // Generate the URL for the uploaded file
-                string fileUrl = $"{Request.Scheme}://{Request.Host}/Uploads/images/{fileName}";
+                string fileUrl = $"{Request.Scheme}://{Request.Host}/Uploads/documents/{fileName}";
 
                 // Save the file information to the database
-                var productPic = new ProductPhotos
+                var productDoc = new ProductDocuments
                 {
-
-                    PhotoUrl = fileUrl,
-                    ProductId = productpic.ProductId // This should now exist in the Products table
+                    DocumentType = fileName,
+                    DocumentUrl = fileUrl,
+                    ProductId = productdoc.ProductId // This should now exist in the Products table
 
                 };
-                _context.ProductPhotos.Add(productPic);
+                _context.ProductDocuments.Add(productDoc);
                 _context.SaveChanges();
 
-                return Ok(new { fileUrl });
+                return Ok(new { fileName, fileUrl });
             }
             catch (Exception ex)
             {

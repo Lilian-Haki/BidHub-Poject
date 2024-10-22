@@ -1,5 +1,4 @@
-﻿using BidHub_Poject.Migrations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection.Emit;
@@ -12,11 +11,11 @@ namespace BidHub_Poject.Models
        : base(options)
         {
         } 
-        public DbSet<Roles> Roles { get; set; }
-        public DbSet<Users> Users { get; set; }
-        public DbSet<UserRoles> UserRoles { get; set; }
-        public DbSet<Bidders> Bidders { get; set; }
-        public DbSet<Auctioneers> Auctioneers { get; set; }
+        //public DbSet<Roles> Roles { get; set; }
+        //public DbSet<Users> Users { get; set; }
+        //public DbSet<UserRoles> UserRoles { get; set; }
+        //public DbSet<Bidders> Bidders { get; set; }
+        //public DbSet<Auctioneers> Auctioneers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Products> Products { get; set; }
         public DbSet<ProductPhotos> ProductPhotos { get; set; }
@@ -29,18 +28,18 @@ namespace BidHub_Poject.Models
             // Relationships
 
             // User-Role many-to-many relationship
-            modelBuilder.Entity<UserRoles>()
-                .HasKey(ur => new { ur.UserId, ur.RoleId });
+            //modelBuilder.Entity<UserRoles>()
+            //    .HasKey(ur => new { ur.UserId, ur.RoleId });
 
-            modelBuilder.Entity<UserRoles>()
-                .HasOne(ur => ur.User)
-                .WithMany(u => u.UserRoles)
-                .HasForeignKey(ur => ur.UserId);
+            //modelBuilder.Entity<UserRoles>()
+            //    .HasOne(ur => ur.User)
+            //    .WithMany(u => u.UserRoles)
+            //    .HasForeignKey(ur => ur.UserId);
 
-            modelBuilder.Entity<UserRoles>()
-                .HasOne(ur => ur.Role)
-                .WithMany(r => r.UserRoles)
-                .HasForeignKey(ur => ur.RoleId);
+            //modelBuilder.Entity<UserRoles>()
+            //    .HasOne(ur => ur.Role)
+            //    .WithMany(r => r.UserRoles)
+            //    .HasForeignKey(ur => ur.RoleId);
 
             // Auctioneer and Company one-to-many
             //modelBuilder.Entity<Auctioneers>()
@@ -58,37 +57,39 @@ namespace BidHub_Poject.Models
 
             //modelBuilder.Entity<ProductPhoto>().HasOne(pp => pp.Product).WithMany(p => p.ProductPhotos).HasForeignKey(pp => pp.ProductId);
 
-            
-            //// Product and Photo one-to-one
-            //modelBuilder.Entity<Products>()
-            //    .HasOne(p => p.ProductPhoto)
-            //    .WithMany(pp => pp.Products)
-            //    .HasForeignKey(p => p.PhotoId);
+
+            // Product and Photo one-to-one
+            modelBuilder.Entity<ProductPhotos>()
+                .HasOne(p => p.Product)
+                .WithMany(pp => pp.Photos)
+                .HasForeignKey(p => p.ProductId);
 
             // Product and Document one-to-one
-            //modelBuilder.Entity<ProductDocuments>()
-            //    .HasOne(p => p.Products)
-            //    .WithMany(pd => pd.ProductDocuments)
-            //    .HasForeignKey(p => p.DocumentId);
+            modelBuilder.Entity<ProductDocuments>()
+                .HasOne(p => p.Product)
+                .WithMany(pd => pd.Documents)
+                .HasForeignKey(p => p.ProductId);
+
+            //modelBuilder.Entity<Products>().HasMany(x => x.Documents).WithOne(x => x.Product).HasForeignKey(x => x.ProductId);
 
             // Bidder and User one-to-one
-            modelBuilder.Entity<Bidders>()
-                .HasOne(b => b.User)
-                .WithMany(u => u.Bidders)
-                .HasForeignKey(b => b.UserId);
+            //modelBuilder.Entity<Bidders>()
+            //    .HasOne(b => b.User)
+            //    .WithMany(u => u.Bidders)
+            //    .HasForeignKey(b => b.UserId);
 
             // Viewing and User/Product one-to-many
-            modelBuilder.Entity<BViewing>()
-                .HasOne(bv => bv.User)
-                .WithMany(u => u.BViewings)
-                .HasForeignKey(bv => bv.UserId);
+            //modelBuilder.Entity<BViewing>()
+            //    .HasOne(bv => bv.User)
+            //    .WithMany(u => u.BViewings)
+            //    .HasForeignKey(bv => bv.UserId);
 
             modelBuilder.Entity<BViewing>()
                 .HasOne(bv => bv.Product)
                 .WithMany(p => p.BViewings)
                 .HasForeignKey(bv => bv.ProductId);
 
-            // BidDate and Product one-to-many
+            //BidDate and Product one-to - many
             modelBuilder.Entity<BidDates>()
                 .HasOne(bd => bd.Product)
                 .WithMany(p => p.BidDates)

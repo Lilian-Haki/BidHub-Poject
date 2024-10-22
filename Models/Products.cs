@@ -24,11 +24,12 @@ namespace BidHub_Poject.Models
         //public int DocumentId { get; set; }
         //public ProductDocuments? ProductDocument { get; set; }
 
-        //public ICollection<ProductPhotos> Photos { get; set; }
-        //public ICollection<ProductDocuments>? Documents { get; set; } 
-        public ICollection<Auctioneers> Auctioneers { get; set; }
+        public ICollection<ProductPhotos> Photos { get; set; }
+        public ICollection<ProductDocuments> Documents { get; set; }
+        //public ICollection<Auctioneers> Auctioneers { get; set; }
         public ICollection<BViewing> BViewings { get; set; }
         public ICollection<BidDates> BidDates { get; set; }
+
 
 
     }

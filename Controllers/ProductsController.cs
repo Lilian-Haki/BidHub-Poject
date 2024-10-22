@@ -59,66 +59,9 @@ public class ProductsController : ControllerBase
 
         return Ok(product);
     }
-    [HttpPost("{productId}/photos")]
-    public async Task<IActionResult> UploadPhoto(int productId, IFormFile file)
-    {
-        var product = await _context.Products.FindAsync(productId);
-        if (product == null)
-            return NotFound();
+   
+   
 
-        // Save the file to your storage (e.g., file system, cloud storage)
-        var filePath = await SaveFileAsync(file);
-
-        var photo = new ProductPhotos
-        {
-            PhotoUrl = filePath,
-            PhotoId = productId
-        };
-
-        _context.ProductPhotos.Add(photo);
-        await _context.SaveChangesAsync();
-
-        return Ok(photo);
-    }
-
-    //[HttpPost("{productId}/documents")]
-    //public async Task<IActionResult> UploadDocument(int productId, IFormFile file)
-    //{
-    //    var product = await _context.Products.FindAsync(productId);
-    //    if (product == null)
-    //        return NotFound();
-
-    //    // Save the file to your storage
-    //    var filePath = await SaveFileAsync(file);
-
-    //    var document = new Document
-    //    {
-    //        FilePath = filePath,
-    //        ProductId = productId
-    //    };
-
-    //    _context.Documents.Add(document);
-    //    await _context.SaveChangesAsync();
-
-    //    return Ok(document);
-    //}
-
-    private async Task<string> SaveFileAsync(IFormFile file)
-    {
-        // Implement your file saving logic here
-        // For example, save to wwwroot/uploads and return the relative path
-        var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-        if (!Directory.Exists(uploads))
-            Directory.CreateDirectory(uploads);
-
-        var filePath = Path.Combine(uploads, file.FileName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await file.CopyToAsync(stream);
-        }
-
-        return $"/uploads/{file.FileName}";
-    }
+   
 
 }

@@ -11,8 +11,8 @@ namespace BidHub_Poject.Models
 
         // Foreign key
         //[ForeignKey("Products")]
-        //public int ProductId { get; set; }
-        //public Products Product { get; set; }
+        public int ProductId { get; set; }
+        public Products Product { get; set; }
 
         //public ICollection<Products> Products { get; set; }
     }

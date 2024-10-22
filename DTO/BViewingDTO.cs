@@ -4,5 +4,7 @@
     {
         public DateTime Date { get; set; }
         public string Email { get; set; }
+        public int ProductId { get; set; }
+
     }
 }

@@ -10,7 +10,7 @@ namespace BidHub_Poject.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        [ForeignKey("Products")]
+        //[ForeignKey("Products")]
         public int ProductId { get; set; }
         public Products Product { get; set; }
     }

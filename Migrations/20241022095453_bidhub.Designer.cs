@@ -4,6 +4,7 @@ using BidHub_Poject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BidHub_Poject.Migrations
 {
     [DbContext(typeof(BidHubDbContext))]
-    partial class BidHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241022095453_bidhub")]
+    partial class bidhub
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,12 +40,12 @@ namespace BidHub_Poject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductsProductId")
                         .HasColumnType("int");
 
                     b.HasKey("ViewingId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductsProductId");
 
                     b.ToTable("BViewings");
                 });
@@ -188,13 +191,9 @@ namespace BidHub_Poject.Migrations
 
             modelBuilder.Entity("BidHub_Poject.Models.BViewing", b =>
                 {
-                    b.HasOne("BidHub_Poject.Models.Products", "Product")
+                    b.HasOne("BidHub_Poject.Models.Products", null)
                         .WithMany("BViewings")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
+                        .HasForeignKey("ProductsProductId");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.BidDates", b =>
