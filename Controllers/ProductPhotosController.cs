@@ -6,6 +6,8 @@ using System;
 
 namespace BidHub_Poject.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProductPhotosController : Controller
     {
         private readonly BidHubDbContext _context;
@@ -19,11 +21,11 @@ namespace BidHub_Poject.Controllers
 
         [HttpPost("images")] // api/main/uploadFile
         //public IActionResult Upload(IFormFile file)
-        public IActionResult Upload(IFormFile file, ProductPhotosDTO productpic)
+        public IActionResult Upload(ProductPhotosDTO productpic)
         {
             // Validate file extension
             List<string> validExtensions = new List<string> { ".jpg", ".png" };
-            string extension = Path.GetExtension(file.FileName);
+            string extension = Path.GetExtension(productpic.PhotoUrl.FileName);
             if (!validExtensions.Contains(extension))
             {
                 return BadRequest($"Extension is not valid ({string.Join(", ", validExtensions)})");
@@ -32,7 +34,7 @@ namespace BidHub_Poject.Controllers
 
 
             // Validate file size
-            long size = file.Length;
+            long size = productpic.PhotoUrl.Length;
             if (size > (5 * 1024 * 1024))
             {
                 return BadRequest("Maximum size can be 5MB");
@@ -61,7 +63,7 @@ namespace BidHub_Poject.Controllers
                 // Save the file
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    file.CopyTo(stream);
+                    productpic.PhotoUrl.CopyTo(stream);
                 }
 
                 // Generate the URL for the uploaded file
@@ -70,10 +72,8 @@ namespace BidHub_Poject.Controllers
                 // Save the file information to the database
                 var productPic = new ProductPhotos
                 {
-
                     PhotoUrl = fileUrl,
                     ProductId = productpic.ProductId // This should now exist in the Products table
-
                 };
                 _context.ProductPhotos.Add(productPic);
                 _context.SaveChanges();
@@ -87,5 +87,98 @@ namespace BidHub_Poject.Controllers
                 return StatusCode(500, "An error occurred while uploading the file.");
             }
         }
+        // GET: api/Auctioneers
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductPhotosDTO>>> Getproductpic()
+        {
+            var productPic = await _context.ProductPhotos
+                .Select(a => new ProductPhotosDTO
+                {
+                    ProductId = a.ProductId
+                })
+                .ToListAsync();
+
+            return Ok(productPic);
+        }
+
+        // GET: api/Auctioneers/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductRtnPhotoDTO>> Getproductpic(int id)
+        {
+            var productPic = await _context.ProductPhotos.FindAsync(id);
+
+            if (productPic == null)
+            {
+                return NotFound();
+            }
+
+            var ProductrtnPhotoDTO = new ProductRtnPhotoDTO
+            {
+
+                ProductId = productPic.ProductId,
+                PhotoUrl = productPic.PhotoUrl
+
+            };
+
+            return Ok(ProductrtnPhotoDTO);
+        }
+
+        // PUT: api/Auctioneers/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProductImg(int id, ProductPhotosDTO productPicDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var productPic = await _context.ProductPhotos.FindAsync(id);
+            if (productPic == null)
+            {
+                return NotFound();
+            }
+
+            productPic.ProductId = productPicDTO.ProductId;
+
+            _context.Entry(productPic).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.ProductPhotos.Any(e => e.PhotoId == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/Auctioneers/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProductImg(int id)
+        {
+            var productPic = await _context.ProductPhotos.FindAsync(id);
+
+            if (productPic == null)
+            {
+                return NotFound();
+            }
+
+            _context.ProductPhotos.Remove(productPic);
+            await _context.SaveChangesAsync();
+
+
+            return NoContent();
+        }
+
+        
     }
 }

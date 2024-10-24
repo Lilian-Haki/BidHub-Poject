@@ -3,9 +3,12 @@ using BidHub_Poject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Xml.Linq;
 
 namespace BidHub_Poject.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProductDocumentsController : Controller
     {
         private readonly BidHubDbContext _context;
@@ -18,23 +21,23 @@ namespace BidHub_Poject.Controllers
         }
 
         [HttpPost("documents")] // api/main/uploadFile
-        public IActionResult Upload(IFormFile file, ProductDocDTO productdoc,string fileName)
+        public IActionResult Upload( ProductDocDTO productdoc, string fileName)
         {
             // Validate file extension
             List<string> validExtensions = new List<string> { ".pdf", ".ppt" };
-            string extension = Path.GetExtension(file.FileName);
+            string extension = Path.GetExtension(productdoc.DocumentUrl.FileName);
             if (!validExtensions.Contains(extension))
             {
                 return BadRequest($"Extension is not valid ({string.Join(", ", validExtensions)})");
             }
 
-            if (file == null || string.IsNullOrEmpty(fileName))
+            if (productdoc.DocumentUrl == null || string.IsNullOrEmpty(fileName))
             {
                 return BadRequest("File or file name is missing.");
             }
 
             // Validate file size
-            long size = file.Length;
+            long size = productdoc.DocumentUrl.Length;
             if (size > (5 * 1024 * 1024))
             {
                 return BadRequest("Maximum size can be 5MB");
@@ -61,7 +64,7 @@ namespace BidHub_Poject.Controllers
                 // Save the file
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    file.CopyTo(stream);
+                    productdoc.DocumentUrl.CopyTo(stream);
                 }
 
                 // Generate the URL for the uploaded file
@@ -87,5 +90,95 @@ namespace BidHub_Poject.Controllers
                 return StatusCode(500, "An error occurred while uploading the file.");
             }
         }
+        // GET: api/Auctioneers
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProductRtnDocDTO>>> GetProductDoc()
+        {
+            var productdoc = await _context.ProductDocuments
+                .Select(a => new ProductRtnDocDTO
+                {
+                    ProductId = a.ProductId,
+                    DocumentUrl = a.DocumentUrl
+                })
+                .ToListAsync();
+
+            return Ok(productdoc);
+        }
+
+        // GET: api/Auctioneers/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductRtnDocDTO>> GetProductDoc(int id)
+        {
+            var productdoc = await _context.ProductDocuments.FindAsync(id);
+
+            if (productdoc == null)
+            {
+                return NotFound();
+            }
+
+            var ProductrtnDocDTO = new ProductRtnDocDTO
+            {
+                DocumentType = productdoc.DocumentType,
+                DocumentUrl = productdoc.DocumentUrl,
+                ProductId = productdoc.ProductId
+            };
+
+            return Ok(ProductrtnDocDTO);
+        }
+
+        // PUT: api/Auctioneers/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAuctioneer(int id, ProductDocDTO productDocDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var productdoc = await _context.ProductDocuments.FindAsync(id);
+            if (productdoc == null)
+            {
+                return NotFound();
+            }
+
+            productdoc.ProductId = productDocDTO.ProductId;
+
+            _context.Entry(productdoc).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.ProductDocuments.Any(e => e.DocumentId == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/Auctioneers/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProductDoc(int id)
+        {
+            var productdoc = await _context.ProductDocuments.FindAsync(id);
+            if (productdoc == null)
+            {
+                return NotFound();
+            }
+
+            _context.ProductDocuments.Remove(productdoc);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }

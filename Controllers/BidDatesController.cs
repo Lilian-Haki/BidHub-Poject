@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BidHub_Poject.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class BidDatesController : Controller
     {
         private readonly BidHubDbContext _context;
@@ -12,6 +14,30 @@ namespace BidHub_Poject.Controllers
         public BidDatesController(BidHubDbContext context)
         {
             _context = context;
+        }
+       
+
+        [HttpPost("date-range")]
+        public async Task<IActionResult> BidDates([FromBody] BidDatesDTO bidDates)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var biddates = new BidDates
+            {
+                StartDate = bidDates.StartDate,
+                EndDate = bidDates.EndDate,
+                ProductId = bidDates.ProductId // This should now exist in the Products table
+
+
+            };
+            _context.BidDates.Add(biddates);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+
+            //return CreatedAtAction(nameof(GetProduct), new { id = biddates.BidDateId }, biddates);
         }
         // GET: api/Auctioneers
         [HttpGet]
@@ -51,29 +77,6 @@ namespace BidHub_Poject.Controllers
             return Ok(bidDatesDTO);
         }
 
-
-        [HttpPost("date-range")]
-        public async Task<IActionResult> BidDates([FromBody] BidDatesDTO bidDates)
-        {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var biddates = new BidDates
-            {
-                StartDate = bidDates.StartDate,
-                EndDate = bidDates.EndDate,
-                ProductId = bidDates.ProductId // This should now exist in the Products table
-
-
-            };
-            _context.BidDates.Add(biddates);
-            await _context.SaveChangesAsync();
-
-            return Ok();
-
-            //return CreatedAtAction(nameof(GetProduct), new { id = biddates.BidDateId }, biddates);
-        }
         // PUT: api/Auctioneers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAuctioneer(int id, BidDatesDTO bidDatesDTO)
