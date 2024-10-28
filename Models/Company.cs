@@ -13,6 +13,6 @@ namespace BidHub_Poject.Models
         public bool Status { get; set; }
         public DateTime DateAdded { get; set; }
 
-        //public ICollection<Auctioneers> Auctioneers { get; set; }
+        public ICollection<Auctioneers> Auctioneers { get; set; }
     }
 }

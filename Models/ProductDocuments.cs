@@ -11,10 +11,7 @@ namespace BidHub_Poject.Models
         public string DocumentUrl { get; set; }
 
 
-        //public ICollection<Products> Products { get; set; }
-        //public ICollection<Products> Products { get; set; }
-        //
-
+       //Foreign Key
         public int ProductId { get; set; }
         public Products Product { get; set; }
 

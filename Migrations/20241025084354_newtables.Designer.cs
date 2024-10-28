@@ -4,6 +4,7 @@ using BidHub_Poject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BidHub_Poject.Migrations
 {
     [DbContext(typeof(BidHubDbContext))]
-    partial class BidHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241025084354_newtables")]
+    partial class newtables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasKey("AuctioneerId");
 
-                    b.ToTable("Auctioneers", (string)null);
+                    b.ToTable("Auctioneers");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.BViewing", b =>
@@ -78,7 +81,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("BViewings", (string)null);
+                    b.ToTable("BViewings");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.BidDates", b =>
@@ -102,7 +105,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("BidDates", (string)null);
+                    b.ToTable("BidDates");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.Bidders", b =>
@@ -122,7 +125,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasKey("BidderId");
 
-                    b.ToTable("Bidders", (string)null);
+                    b.ToTable("Bidders");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.Company", b =>
@@ -153,7 +156,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasKey("CompanyId");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.ProductDocuments", b =>
@@ -179,7 +182,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductDocuments", (string)null);
+                    b.ToTable("ProductDocuments");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.ProductPhotos", b =>
@@ -201,7 +204,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductPhotos", (string)null);
+                    b.ToTable("ProductPhotos");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.Products", b =>
@@ -237,7 +240,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.Roles", b =>
@@ -258,7 +261,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.UserOtp", b =>
@@ -281,7 +284,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserOtps", (string)null);
+                    b.ToTable("UserOtps");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.UserRoles", b =>
@@ -300,7 +303,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasKey("UserRoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.Users", b =>
@@ -378,7 +381,7 @@ namespace BidHub_Poject.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("BidHub_Poject.Models.BViewing", b =>

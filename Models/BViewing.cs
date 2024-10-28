@@ -6,17 +6,16 @@ namespace BidHub_Poject.Models
     public class BViewing
     {
         [Key]
-        public int ViewingId { get; set; }
-
-        //[ForeignKey("Users")]
-        //public int UserId { get; set; }
-        //public Users User { get; set; }
-
+        public int ViewingId { get; set; }        
         public DateTime Date { get; set; }
         public string Email { get; set; }
 
         //[ForeignKey("Products")]
         public int ProductId { get; set; }
         public Products Product { get; set; }
+        //[ForeignKey("Users")]
+        public int UserId { get; set; }
+        public Users User { get; set; }
+
     }
 }
