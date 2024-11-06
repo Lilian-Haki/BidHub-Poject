@@ -20,7 +20,6 @@ namespace BidHub_Poject.Controllers
         }
 
         [HttpPost("images")] // api/main/uploadFile
-        //public IActionResult Upload(IFormFile file)
         public IActionResult Upload(ProductPhotosDTO productpic)
         {
             // Validate file extension
@@ -87,7 +86,7 @@ namespace BidHub_Poject.Controllers
                 return StatusCode(500, "An error occurred while uploading the file.");
             }
         }
-        // GET: api/Auctioneers
+        // GET: api/ProductPhotos
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductPhotosDTO>>> Getproductpic()
         {
@@ -101,7 +100,7 @@ namespace BidHub_Poject.Controllers
             return Ok(productPic);
         }
 
-        // GET: api/Auctioneers/5
+        // GET: api/ProductPhotos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductRtnPhotoDTO>> Getproductpic(int id)
         {
@@ -123,7 +122,7 @@ namespace BidHub_Poject.Controllers
             return Ok(ProductrtnPhotoDTO);
         }
 
-        // PUT: api/Auctioneers/5
+        // PUT: api/ProductPhotos/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProductImg(int id, ProductPhotosDTO productPicDTO)
         {
@@ -161,7 +160,7 @@ namespace BidHub_Poject.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Auctioneers/5
+        // DELETE: api/ProductPhotos/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProductImg(int id)
         {

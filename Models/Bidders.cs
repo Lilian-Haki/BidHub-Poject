@@ -8,7 +8,7 @@ namespace BidHub_Poject.Models
         public int BidderId {get; set; }
         public string CompanyUrl { get; set; }
         //Foreign Key
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public Users User { get; set; }
     }
 }

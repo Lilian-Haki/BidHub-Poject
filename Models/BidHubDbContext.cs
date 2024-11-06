@@ -7,13 +7,15 @@ using System.Reflection.Emit;
 
 namespace BidHub_Poject.Models
 {
-    public class BidHubDbContext : DbContext
+   
+    public class BidHubDbContext : IdentityDbContext<Users, Roles, Guid>
+
     {
         public BidHubDbContext(DbContextOptions<BidHubDbContext> options) : base(options)
         {
         }
-      
-        public DbSet<Roles> Roles { get; set; }
+
+        public DbSet<Roles>Roles { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<Bidders> Bidders { get; set; }
@@ -28,15 +30,19 @@ namespace BidHub_Poject.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          // Relationships
-
-          // Product and Auctioneer one-to-many
-          modelBuilder.Entity<Products>().HasOne(p => p.Auctioneers) .WithMany(a => a.Products).HasForeignKey(p => p.AuctioneerId);
+            base.OnModelCreating(modelBuilder); // Important for configuring Identity tables
+            //Identity Role
+            modelBuilder.Entity<Roles>().Property(r => r.Role).HasColumnName("Role");
+            modelBuilder.Entity<Roles>().Property(r => r.RoleDescription).HasColumnName("RoleDescription");
+           
+            // Relationships
+            // Product and Auctioneer one-to-many
+            modelBuilder.Entity<Products>().HasOne(p => p.Auctioneers) .WithMany(a => a.Products).HasForeignKey(p => p.AuctioneerId);
          
             // Bidder and User one-to-many
              modelBuilder.Entity<Bidders>().HasOne(b => b.User) .WithMany(u => u.Bidders) .HasForeignKey(b => b.UserId);
             
-            // Bidder and User one-to-many
+            // Auctioneer and User one-to-many
             modelBuilder.Entity<Auctioneers>().HasOne(a => a.User) .WithMany(u => u.Auctioneers).HasForeignKey(a => a.UserId);
            
             // Bidder and User one-to-many

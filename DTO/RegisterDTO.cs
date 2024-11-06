@@ -5,20 +5,7 @@ namespace BidHub_Poject.DTO
 {
     public class RegisterDTO
     {
-        //[Required(ErrorMessage = "First Name Is required")]
-        //public required string FirstName { get; set; }
-        //[Required(ErrorMessage = "Last Name Is required")]
-        //public required string LastName { get; set; }
-        //[Required(ErrorMessage = "UserName Is required")]
-        //public required string UserName { get; set; }
-        //[Required(ErrorMessage = "Email Is required")]
-        //public required string Email { get; set; }
-        //[Required(ErrorMessage = "Password Is required")]
-        //public required string Password { get; set; }
-        //[Required(ErrorMessage = "Password Confirmation Is required")]
-        //public required string ConfirmPassword { get; set; }
-        //[Required(ErrorMessage ="Physical Address Is required")]
-        //public string PhysicalAddress { get; set; }
+       
         [Required(ErrorMessage = "First name is required")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "First name can only contain letters")]
         public required string FirstName { get; set; }
@@ -52,4 +39,15 @@ namespace BidHub_Poject.DTO
         public string Role { get; set; }
 
     }
-}
+    public class UserDTO
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserName { get; set; }
+        public int StaffNo { get; set; }
+        public string Email { get; set; }
+        public string CompanyUrl { get; set; }
+        public string Role { get; set; }
+        public IFormFile? Photo { get; set; } // for file uploads
+    }
+    }

@@ -19,7 +19,7 @@ builder.Services.AddDbContext<BidHubDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //(Add Identity) Register Identity services
-builder.Services.AddIdentity<Users, IdentityRole<Guid>>()
+builder.Services.AddIdentity < Users, Roles>()
     .AddEntityFrameworkStores<BidHubDbContext>()
     .AddDefaultTokenProviders();
 

@@ -16,7 +16,7 @@ namespace BidHub_Poject.Models
         public Company Company { get; set; }
 
         // Foreign key
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public Users User { get; set; }
         public ICollection<Products> Products { get; set; }
 

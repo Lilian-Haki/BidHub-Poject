@@ -12,7 +12,7 @@ namespace BidHub_Poject.Models
         public string ReasonForAuction { get; set; }
         public string OwnersName { get; set; }
         public string OwnerPhoneNo { get; set; }
-        public decimal ReservePrice { get; set; }
+        public double ReservePrice { get; set; }
         public string Location { get; set; }
 
         public int AuctioneerId { get; set; }

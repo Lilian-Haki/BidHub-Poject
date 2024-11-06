@@ -6,8 +6,9 @@
         public string ReasonForAuction { get; set; }
         public string OwnersName { get; set; }
         public string OwnerPhoneNo { get; set; }
-        public decimal ReservePrice { get; set; }
+        public double ReservePrice { get; set; }
         public string Location { get; set; }
-
+        public List<ProductDocDTO> Documents { get; set; }
+        public List<ProductPhotosDTO> Photos { get; set; }
     }
 }

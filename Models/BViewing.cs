@@ -14,7 +14,7 @@ namespace BidHub_Poject.Models
         public int ProductId { get; set; }
         public Products Product { get; set; }
         //[ForeignKey("Users")]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public Users User { get; set; }
 
     }

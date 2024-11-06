@@ -27,34 +27,7 @@ namespace BidHub_Poject.Controllers
         private readonly IConfiguration _configuration;
        
 
-        //public RolesController(BidHubDbContext context)
-        //{
-        //    _context = context;
-        //}
-
-        //public class RolesContext /*: IdentityDbContext<Register, IdentityRole<Guid>, Guid>*/
-        //{
-        //    public RolesContext(DbContextOptions<BidHubDbContext> options) : base(options)
-        //    {
-        //    }
-        //    protected override void OnModelCreating(ModelBuilder builder)
-        //    {
-        //        base.OnModelCreating(builder);
-        //        SeedRoles(builder);
-        //    }
-
-        //    private void SeedRoles(ModelBuilder builder)
-        //    {
-        //        builder.Entity<IdentityRole>().HasData
-        //                        (
-        //                        new IdentityRole() { Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "Admin" },
-        //                        new IdentityRole() { Name = "Bidder", ConcurrencyStamp = "2", NormalizedName = "Bidder" },
-        //                        new IdentityRole() { Name = "Auctioneer", ConcurrencyStamp = "3", NormalizedName = "Auctioneer" }
-
-        //                        );
-        //    }
-        //}
-
+      
         public RolesController( UserManager<Users> userManager, SignInManager<Users> signInManager, IConfiguration configuration, BidHubDbContext context)//initialized and injected via constructor:
         {
             _userManager = userManager;
